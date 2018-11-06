@@ -11,12 +11,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     /**The implementator of the rendering contract*/
-    private val renderer : MainActivityOpenGLRenderer = MainActivityOpenGLRenderer()
+    private lateinit var  renderer : MainActivityOpenGLRenderer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        renderer = MainActivityOpenGLRenderer(this)
         GLSurfaceViewConfigurer.openGlSetup(renderer, surfaceView)
+
     }
 
     override fun onResume() {

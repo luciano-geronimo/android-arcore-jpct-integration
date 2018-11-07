@@ -20,11 +20,12 @@ class MainActivityOpenGLRenderer(_ctx:Context, displayRotHelper:DisplayRotationH
     private var isSceneInitialized : Boolean = false
     private lateinit var world : World
     private lateinit var camera : Camera
-    private lateinit var cube : Object3D
+    //private lateinit var cube : Object3D
+    private lateinit var tree : Object3D
 
     override fun onDrawFrame(gl: GL10?) {
         //displayRotationHelper.updateSessionIfNeeded(session) TODO so vai funcionar quando tiver a session
-        val backgroundColor = RGBColor(100,40, 40)
+        val backgroundColor = RGBColor(255,255, 255)
         frameBuffer?.clear(backgroundColor)
         world.renderScene(frameBuffer)
         world.draw(frameBuffer)
@@ -45,21 +46,34 @@ class MainActivityOpenGLRenderer(_ctx:Context, displayRotHelper:DisplayRotationH
             sun.setIntensity(250.0f, 250.0f, 250.0f)
             val texture = Texture(BitmapHelper.rescale(BitmapHelper.convert( context.resources.getDrawable(R.mipmap.ic_launcher)),64,64));
             val textureName = "foobar"
-            //TODO the cube's position and orientation will come from jpct
+            //TODO the cube's position and orientation will come from arcore
             TextureManager.getInstance().addTexture(textureName, texture)
-            cube = Primitives.getCube(10.0f)
-            cube.calcTextureWrapSpherical()
-            cube.setTexture(textureName)
-            cube.strip()
-            cube.build()
-            world.addObject(cube)
+            //ao invés do cubo, minha arvore
+            //thing = loadModel("res/" + thingName + ".3ds", thingScale);
+            val loadedObjects : Array<Object3D> = Loader.loadOBJ(context.assets.open("treenotex.obj"), context.assets.open("treenotex.mtl"), 1.0f)
+            for (i in 1..loadedObjects.size-1){
+                loadedObjects[0] = Object3D.mergeObjects(loadedObjects[0], loadedObjects[i])
+            }
+            tree = loadedObjects[0]
+            tree.strip()
+            tree.build()
+            world.addObject(tree)
+
+//            cube = Primitives.getCube(10.0f)
+//            cube.calcTextureWrapSpherical()
+//            cube.setTexture(textureName)
+//            cube.strip()
+//            cube.build()
+//            world.addObject(cube)
             //TODO Will i be able to pass the view and projection matrixes that Arcore will give me to JPCT camera or will i have to implement my own camera?
             camera = world.camera
             camera.moveCamera(Camera.CAMERA_MOVEOUT, 50.0f)
-            camera.lookAt(cube.transformedCenter)
+            camera.lookAt(tree.transformedCenter)
+//            camera.lookAt(cube.transformedCenter)
             //TODO most probably there won't be a sun in the Arcore scene.
             val sv = SimpleVector()
-            sv.set(cube.transformedCenter)
+//            sv.set(cube.transformedCenter)
+            sv.set(tree.transformedCenter)
             sv.y -= 100
             sv.z -= 100
             sun.position = sv

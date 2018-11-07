@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="arcorejpct.geronimo.don.arcorewithjpct_ae">
+    <!-- Arcore demands camera -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- This tag indicates that this application requires ARCore.  This results in the application
+         only being visible in the Google Play Store on devices that support ARCore. -->
+    <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
     <application
             android:allowBackup="false"
@@ -16,6 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <!-- This tag indicates that this application requires ARCore.  This results in the Google Play
+Store downloading and installing ARCore along with the application. -->
+        <meta-data android:name="com.google.ar.core" android:value="required" />
     </application>
 
 </manifest>

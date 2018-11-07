@@ -23,6 +23,8 @@ android {
 }
 
 dependencies {
+    // ARCore library
+    implementation 'com.google.ar:core:1.5.0'
     //Will find jpct-ae, it is in libs directory.
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

@@ -3,6 +3,7 @@ package arcorejpct.geronimo.don.arcorewithjpct_ae.activities
 import android.content.Context
 import android.opengl.GLSurfaceView
 import arcorejpct.geronimo.don.arcorewithjpct_ae.R
+import arcorejpct.geronimo.don.arcorewithjpct_ae.model.RuntimeGeometry
 import arcorejpct.geronimo.don.arcorewithjpct_ae.utils.DisplayRotationHelper
 import com.threed.jpct.*
 import com.threed.jpct.util.BitmapHelper
@@ -59,20 +60,15 @@ class MainActivityOpenGLRenderer(_ctx:Context, displayRotHelper:DisplayRotationH
             tree.build()
             world.addObject(tree)
 
-//            cube = Primitives.getCube(10.0f)
-//            cube.calcTextureWrapSpherical()
-//            cube.setTexture(textureName)
-//            cube.strip()
-//            cube.build()
-//            world.addObject(cube)
+            val myMesh = RuntimeGeometry(context)
+            world.addObject(myMesh.geometry)
+
             //TODO Will i be able to pass the view and projection matrixes that Arcore will give me to JPCT camera or will i have to implement my own camera?
             camera = world.camera
             camera.moveCamera(Camera.CAMERA_MOVEOUT, 50.0f)
             camera.lookAt(tree.transformedCenter)
-//            camera.lookAt(cube.transformedCenter)
             //TODO most probably there won't be a sun in the Arcore scene.
             val sv = SimpleVector()
-//            sv.set(cube.transformedCenter)
             sv.set(tree.transformedCenter)
             sv.y -= 100
             sv.z -= 100
